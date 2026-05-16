@@ -1,0 +1,54 @@
+[debug] [2026-05-15T06:20:14.609Z] ----------------------------------------------------------------------
+[debug] [2026-05-15T06:20:14.616Z] Command:       /opt/homebrew/Cellar/node/25.2.1/bin/node /opt/homebrew/bin/firebase projects:list --json
+[debug] [2026-05-15T06:20:14.616Z] CLI Version:   15.10.0
+[debug] [2026-05-15T06:20:14.616Z] Platform:      darwin
+[debug] [2026-05-15T06:20:14.616Z] Node Version:  v25.2.1
+[debug] [2026-05-15T06:20:14.616Z] Time:          Fri May 15 2026 14:20:14 GMT+0800 (Philippine Standard Time)
+[debug] [2026-05-15T06:20:14.616Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2026-05-15T06:20:14.617Z] >>> [apiv2][query] GET https://firebase-public.firebaseio.com/cli.json [none]
+[debug] [2026-05-15T06:20:14.643Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-05-15T06:20:14.643Z] > authorizing via signed-in user (lei.baylon@gmail.com)
+[debug] [2026-05-15T06:20:14.644Z] Checked if tokens are valid: false, expires at: 1773761231485
+[debug] [2026-05-15T06:20:14.644Z] Checked if tokens are valid: false, expires at: 1773761231485
+[debug] [2026-05-15T06:20:14.644Z] > refreshing access token with scopes: []
+[debug] [2026-05-15T06:20:14.645Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2026-05-15T06:20:14.645Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2026-05-15T06:20:14.788Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 200
+[debug] [2026-05-15T06:20:14.788Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2026-05-15T06:20:14.802Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects pageSize=1000
+[debug] [2026-05-15T06:20:15.219Z] <<< [apiv2][status] GET https://firebase-public.firebaseio.com/cli.json 200
+[debug] [2026-05-15T06:20:15.219Z] <<< [apiv2][body] GET https://firebase-public.firebaseio.com/cli.json {"cloudBuildErrorAfter":1594252800000,"cloudBuildWarnAfter":1590019200000,"defaultNode10After":1594252800000,"minVersion":"3.0.5","node8DeploysDisabledAfter":1613390400000,"node8RuntimeDisabledAfter":1615809600000,"node8WarnAfter":1600128000000}
+[debug] [2026-05-15T06:20:15.356Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects 200
+[debug] [2026-05-15T06:20:15.356Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects [omitted]
+[info] ┌──────────────────────┬─────────────────┬────────────────┬──────────────────────┐
+│ Project Display Name │ Project ID      │ Project Number │ Resource Location ID │
+├──────────────────────┼─────────────────┼────────────────┼──────────────────────┤
+│ FocusFlow            │ focusflow-445e1 │ 415693203437   │ [Not specified]      │
+├──────────────────────┼─────────────────┼────────────────┼──────────────────────┤
+│ TaskFlow             │ taskflow-12     │ 14124446211    │ [Not specified]      │
+└──────────────────────┴─────────────────┴────────────────┴──────────────────────┘
+[info] 
+[info] 2 project(s) total.
+[debug] [2026-05-15T06:20:29.018Z] ----------------------------------------------------------------------
+[debug] [2026-05-15T06:20:29.022Z] Command:       /opt/homebrew/Cellar/node/25.2.1/bin/node /opt/homebrew/bin/firebase apps:list --project internly-487614 --json
+[debug] [2026-05-15T06:20:29.022Z] CLI Version:   15.10.0
+[debug] [2026-05-15T06:20:29.022Z] Platform:      darwin
+[debug] [2026-05-15T06:20:29.022Z] Node Version:  v25.2.1
+[debug] [2026-05-15T06:20:29.022Z] Time:          Fri May 15 2026 14:20:29 GMT+0800 (Philippine Standard Time)
+[debug] [2026-05-15T06:20:29.022Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2026-05-15T06:20:29.055Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-05-15T06:20:29.055Z] > authorizing via signed-in user (lei.baylon@gmail.com)
+[debug] [2026-05-15T06:20:29.058Z] Checked if tokens are valid: true, expires at: 1778829613788
+[debug] [2026-05-15T06:20:29.058Z] Checked if tokens are valid: true, expires at: 1778829613788
+[debug] [2026-05-15T06:20:29.059Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/internly-487614:searchApps pageSize=100
+[debug] [2026-05-15T06:20:29.521Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/internly-487614:searchApps 403
+[debug] [2026-05-15T06:20:29.521Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/internly-487614:searchApps {"error":{"code":403,"message":"The caller does not have permission","status":"PERMISSION_DENIED"}}
+[debug] [2026-05-15T06:20:29.522Z] Request to https://firebase.googleapis.com/v1beta1/projects/internly-487614:searchApps?pageSize=100 had HTTP Error: 403, The caller does not have permission
+[debug] [2026-05-15T06:20:29.664Z] FirebaseError: Request to https://firebase.googleapis.com/v1beta1/projects/internly-487614:searchApps?pageSize=100 had HTTP Error: 403, The caller does not have permission
+    at responseToError (/opt/homebrew/lib/node_modules/firebase-tools/lib/responseToError.js:53:12)
+    at RetryOperation._fn (/opt/homebrew/lib/node_modules/firebase-tools/lib/apiv2.js:333:77)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+[error] 
+[error] Error: Failed to list Firebase apps. See firebase-debug.log for more info.

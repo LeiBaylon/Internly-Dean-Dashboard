@@ -1,0 +1,58 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function userRole() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role;
+    }
+
+    function isDean() {
+      return isSignedIn() && userRole() == 'dean';
+    }
+
+    function isIntern(internId) {
+      return isSignedIn() && request.auth.uid == internId;
+    }
+
+    match /interns/{internId} {
+      allow read: if isDean() || isIntern(internId);
+      allow write: if isDean();
+
+      match /hours/{entryId} {
+        allow read: if isDean() || isIntern(internId);
+        allow write: if isIntern(internId);
+      }
+
+      match /reports/{reportId} {
+        allow read: if isDean() || isIntern(internId);
+        allow create: if isIntern(internId);
+        allow update: if isDean() || isIntern(internId);
+      }
+
+      match /competencies/{competencyId} {
+        allow read: if isDean() || isIntern(internId);
+        allow create: if isIntern(internId);
+        allow update: if isDean() || isIntern(internId);
+      }
+    }
+
+    match /sanctionSchedules/{scheduleId} {
+      allow read: if isDean();
+      allow write: if isDean();
+    }
+
+    match /sanctions/{sanctionId} {
+      allow read: if isDean();
+      allow write: if isDean();
+    }
+
+    match /users/{uid} {
+      allow read: if isSignedIn() && request.auth.uid == uid;
+      allow write: if false;
+    }
+  }
+}
