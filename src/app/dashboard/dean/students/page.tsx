@@ -2,56 +2,46 @@
 
 import { useEffect, useState } from "react";
 import InternsTable from "@/components/dean/InternsTable";
+import ErrorState from "@/components/ui/ErrorState";
 import LoadingSkeleton from "@/components/ui/LoadingSkeleton";
-import {
-  fetchCompetencies,
-  fetchHoursSummary,
-  fetchInterns,
-  fetchReports,
-} from "@/lib/firebase/data";
-import type { Competency, HoursSummary, InternProfile, Report } from "@/lib/types";
+import { fetchHoursSummary, fetchInterns } from "@/lib/firebase/data";
+import type { HoursSummary, InternProfile } from "@/lib/types";
 
 export default function DeanStudentsPage() {
   const [interns, setInterns] = useState<InternProfile[]>([]);
-  const [reports, setReports] = useState<Report[]>([]);
-  const [competencies, setCompetencies] = useState<Competency[]>([]);
   const [hoursByIntern, setHoursByIntern] = useState<
     Record<string, HoursSummary | null>
   >({});
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     let active = true;
 
     const load = async () => {
       setLoading(true);
+      setError("");
 
-      const [internResult, reportResult, competencyResult] =
-        await Promise.allSettled([
-          fetchInterns(),
-          fetchReports(),
-          fetchCompetencies(),
-        ] as const);
+      try {
+        const internResult = await Promise.allSettled([fetchInterns()] as const);
+        const internData =
+          internResult[0].status === "fulfilled" ? internResult[0].value : [];
 
-      const internData =
-        internResult.status === "fulfilled" ? internResult.value : [];
-      const reportData =
-        reportResult.status === "fulfilled" ? reportResult.value : [];
-      const competencyData =
-        competencyResult.status === "fulfilled" ? competencyResult.value : [];
+        const hoursEntries = await Promise.allSettled(
+          internData.map((intern) => {
+            const requiredHours = intern.requiredHours ?? 0;
+            if (!requiredHours) {
+              return Promise.resolve(null);
+            }
 
-      const hoursEntries = await Promise.allSettled(
-        internData.map((intern) => {
-          const requiredHours = intern.requiredHours ?? 0;
-          if (!requiredHours) {
-            return Promise.resolve(null);
-          }
+            return fetchHoursSummary(intern.id, requiredHours);
+          })
+        );
 
-          return fetchHoursSummary(intern.id, requiredHours);
-        })
-      );
+        if (!active) {
+          return;
+        }
 
-      if (active) {
         const hoursMap: Record<string, HoursSummary | null> = {};
         internData.forEach((intern, index) => {
           const hoursEntry = hoursEntries[index];
@@ -60,10 +50,25 @@ export default function DeanStudentsPage() {
         });
 
         setInterns(internData);
-        setReports(reportData);
-        setCompetencies(competencyData);
         setHoursByIntern(hoursMap);
-        setLoading(false);
+
+        if (internResult[0].status === "rejected") {
+          setError(
+            "Some dashboard data could not be loaded. Check Firebase configuration and try again."
+          );
+        }
+      } catch (error) {
+        if (active) {
+          setInterns([]);
+          setHoursByIntern({});
+          setError(
+            "Student data could not be loaded. Check Firebase configuration and try again."
+          );
+        }
+      } finally {
+        if (active) {
+          setLoading(false);
+        }
       }
     };
 
@@ -83,11 +88,11 @@ export default function DeanStudentsPage() {
   }
 
   return (
-    <InternsTable
-      interns={interns}
-      reports={reports}
-      competencies={competencies}
-      hoursByIntern={hoursByIntern}
-    />
+    <div className="space-y-6">
+      {error ? (
+        <ErrorState title="Student data limited" description={error} />
+      ) : null}
+      <InternsTable interns={interns} hoursByIntern={hoursByIntern} />
+    </div>
   );
 }

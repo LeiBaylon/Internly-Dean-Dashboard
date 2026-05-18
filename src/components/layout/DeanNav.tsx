@@ -96,10 +96,8 @@ export default function DeanNav({ items, collapsed = false }: DeanNavProps) {
   return (
     <nav className="flex flex-col gap-2" aria-label="Dean navigation">
       {items.map((item) => {
-        const isDashboard = item.href === "/dashboard/dean";
-        const isActive = isDashboard
-          ? pathname === item.href
-          : pathname === item.href || pathname.startsWith(`${item.href}/`);
+        const isActive =
+          pathname === item.href || pathname.startsWith(`${item.href}/`);
 
         return (
           <Link

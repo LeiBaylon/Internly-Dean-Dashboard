@@ -13,6 +13,8 @@ import { formatDate } from "@/lib/utils";
 type StudentActivityPanelProps = {
   intern: InternProfile;
   competencies: Competency[];
+  competenciesLoading: boolean;
+  competenciesError?: string;
   activityEntries: ActivityLogEntry[];
   isLoading: boolean;
   error?: string;
@@ -35,6 +37,8 @@ function displayValue(value?: string) {
 export default function StudentActivityPanel({
   intern,
   competencies,
+  competenciesLoading,
+  competenciesError,
   activityEntries,
   isLoading,
   error,
@@ -105,7 +109,14 @@ export default function StudentActivityPanel({
           </span>
         </div>
         <div className="mt-4 overflow-x-auto table-scroll">
-          {submittedCompetencies.length === 0 ? (
+          {competenciesLoading ? (
+            <LoadingSkeleton lines={3} />
+          ) : competenciesError ? (
+            <ErrorState
+              title="Unable to load competencies"
+              description={competenciesError}
+            />
+          ) : submittedCompetencies.length === 0 ? (
             <EmptyState
               title="No submitted competencies"
               description="This student has no submitted competencies yet."

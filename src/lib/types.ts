@@ -106,9 +106,3 @@ export type Sanction = {
   reason?: string;
 };
 
-export type SummaryCounts = {
-  totalInterns: number;
-  pendingReports: number;
-  pendingCompetencies: number;
-  upcomingSanctions: number;
-};

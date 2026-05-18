@@ -28,26 +28,8 @@ NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID=
 - Enable Email/Password sign-in in Firebase Authentication.
 - Create a user profile document at `users/{uid}` with `role = "dean"` for dean access.
 
-## Firestore Seed
-
-Use the seed script to populate interns, reports, competencies, hours, sanctions, and sanction schedules.
-
-1. Download a Firebase Admin SDK service account JSON for your project.
-2. Export credentials and dean UID, then run the script:
-
-```
-export GOOGLE_APPLICATION_CREDENTIALS="/path/to/service-account.json"
-export DEAN_UID="your-auth-uid"
-npm run seed
-```
-
-Optional:
-- Set `DEAN_DISPLAY_NAME` to override the seeded user display name.
-- Use `FIREBASE_SERVICE_ACCOUNT` to pass the raw service account JSON instead of a file path.
-
 ## Notes
 
 - Dean access is enforced by role checks from the user profile document.
 - Firestore rules and indexes are included as starter templates.
 - UI screens read and write directly to Firestore using the web SDK.
-# Internly-Dean-Dashboard

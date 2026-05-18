@@ -128,7 +128,7 @@ export default function DeanShell({ user, children }: DeanShellProps) {
               aria-label={navCollapsed ? "Expand navigation" : "Collapse navigation"}
               title={navCollapsed ? "Expand navigation" : "Collapse navigation"}
             >
-              <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-[#35e0ad] to-[#08a978] text-2xl font-bold text-white shadow-soft">
+              <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-linear-to-br from-[#35e0ad] to-[#08a978] text-2xl font-bold text-white shadow-soft">
                 I
               </span>
               {navCollapsed ? null : (
@@ -191,7 +191,7 @@ export default function DeanShell({ user, children }: DeanShellProps) {
                 href="/dashboard/dean/students"
                 className="flex items-center gap-3"
               >
-                <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-[#35e0ad] to-[#08a978] text-xl font-bold text-white">
+                <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-linear-to-br from-[#35e0ad] to-[#08a978] text-xl font-bold text-white">
                   I
                 </span>
                 <span className="text-xl font-bold text-ink">Internly</span>
@@ -213,7 +213,7 @@ export default function DeanShell({ user, children }: DeanShellProps) {
           </header>
 
           <main className="w-full flex-1 px-4 py-8 sm:px-6 lg:px-10 xl:px-12">
-            <div className="mx-auto w-full max-w-[1600px] space-y-8">
+            <div className="mx-auto w-full max-w-400 space-y-8">
               <header>
                 <div className="flex flex-wrap items-start justify-between gap-5">
                   <div className="flex min-w-0 items-start gap-3">

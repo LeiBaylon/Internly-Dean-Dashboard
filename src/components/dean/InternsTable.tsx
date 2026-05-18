@@ -6,10 +6,12 @@ import type {
   Competency,
   HoursSummary,
   InternProfile,
-  Report,
 } from "@/lib/types";
 import EmptyTable from "@/components/ui/EmptyTable";
-import { fetchActivityLogEntries } from "@/lib/firebase/data";
+import {
+  fetchActivityLogEntries,
+  fetchCompetenciesByIntern,
+} from "@/lib/firebase/data";
 import StudentActivityPanel from "./StudentActivityPanel";
 import FilterPanel, {
   FilterField,
@@ -18,8 +20,6 @@ import FilterPanel, {
 
 type InternsTableProps = {
   interns: InternProfile[];
-  reports: Report[];
-  competencies: Competency[];
   hoursByIntern: Record<string, HoursSummary | null>;
 };
 
@@ -28,8 +28,6 @@ type AlphabeticalOrder = "az" | "za";
 
 export default function InternsTable({
   interns,
-  reports,
-  competencies,
   hoursByIntern,
 }: InternsTableProps) {
   const [search, setSearch] = useState("");
@@ -42,6 +40,9 @@ export default function InternsTable({
   const [activityEntries, setActivityEntries] = useState<ActivityLogEntry[]>([]);
   const [activityLoading, setActivityLoading] = useState(false);
   const [activityError, setActivityError] = useState("");
+  const [competencies, setCompetencies] = useState<Competency[]>([]);
+  const [competenciesLoading, setCompetenciesLoading] = useState(false);
+  const [competenciesError, setCompetenciesError] = useState("");
 
   useEffect(() => {
     if (!selectedIntern) {
@@ -67,6 +68,41 @@ export default function InternsTable({
       } finally {
         if (active) {
           setActivityLoading(false);
+        }
+      }
+    };
+
+    load();
+
+    return () => {
+      active = false;
+    };
+  }, [selectedIntern]);
+
+  useEffect(() => {
+    if (!selectedIntern) {
+      return;
+    }
+
+    let active = true;
+
+    const load = async () => {
+      setCompetenciesLoading(true);
+      setCompetenciesError("");
+      setCompetencies([]);
+
+      try {
+        const entries = await fetchCompetenciesByIntern(selectedIntern.id);
+        if (active) {
+          setCompetencies(entries);
+        }
+      } catch {
+        if (active) {
+          setCompetenciesError("Unable to load competencies. Please try again.");
+        }
+      } finally {
+        if (active) {
+          setCompetenciesLoading(false);
         }
       }
     };
@@ -323,6 +359,8 @@ export default function InternsTable({
             <StudentActivityPanel
               intern={selectedIntern}
               competencies={competencies}
+              competenciesLoading={competenciesLoading}
+              competenciesError={competenciesError}
               activityEntries={activityEntries}
               isLoading={activityLoading}
               error={activityError}
