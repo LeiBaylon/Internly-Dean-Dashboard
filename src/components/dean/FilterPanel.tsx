@@ -36,11 +36,14 @@ export function filterControlClassName(extra = "") {
     .join(" ");
 }
 
+export const compactFieldsClassName =
+  "gap-2 grid-cols-1 sm:grid-cols-2 lg:grid-cols-[repeat(auto-fit,minmax(110px,1fr))]";
+
 export default function FilterPanel({
   searchValue,
   searchPlaceholder,
   onSearchChange,
-  fieldsClassName = "",
+  fieldsClassName = compactFieldsClassName,
   children,
 }: FilterPanelProps) {
   const [filtersOpen, setFiltersOpen] = useState(true);
@@ -110,7 +113,7 @@ export default function FilterPanel({
         <div
           className={[
             "grid gap-4",
-            fieldsClassName || "grid-cols-1 sm:grid-cols-2 xl:grid-cols-4",
+            fieldsClassName,
             hasSearch ? "mt-5" : "",
           ]
             .filter(Boolean)

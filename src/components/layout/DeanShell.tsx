@@ -11,7 +11,6 @@ import { auth } from "@/lib/firebase/auth";
 import DeanNav, { type NavItem } from "./DeanNav";
 
 const navItems: NavItem[] = [
-  { label: "Dashboard", href: "/dashboard/dean", icon: "dashboard" },
   { label: "OJT Profiles", href: "/dashboard/dean/students", icon: "profiles" },
   { label: "OJT Hours", href: "/dashboard/dean/hours", icon: "hours" },
   { label: "Weekly Reports", href: "/dashboard/dean/reports", icon: "reports" },
@@ -22,7 +21,7 @@ const navItems: NavItem[] = [
 type Breadcrumb = { label: string; href?: string };
 
 const baseBreadcrumbs: Breadcrumb[] = [
-  { label: "Dashboard", href: "/dashboard/dean" },
+  { label: "Dean", href: "/dashboard/dean/students" },
 ];
 
 type DeanShellProps = {
@@ -31,14 +30,6 @@ type DeanShellProps = {
 };
 
 function getPageMeta(pathname: string) {
-  if (pathname === "/dashboard/dean") {
-    return {
-      title: "Good Afternoon, Dean",
-      subtitle: "Here's your OJT oversight and approval queue.",
-      breadcrumbs: [...baseBreadcrumbs, { label: "Overview" }],
-    };
-  }
-
   if (pathname.startsWith("/dashboard/dean/students/")) {
     const studentId = pathname.split("/").pop() ?? "Student";
     return {
@@ -93,7 +84,7 @@ function getPageMeta(pathname: string) {
   }
 
   return {
-    title: "Dean dashboard",
+    title: "Dean",
     subtitle: "OJT program oversight.",
     breadcrumbs: baseBreadcrumbs,
   };
@@ -104,10 +95,7 @@ export default function DeanShell({ user, children }: DeanShellProps) {
   const [navOpen, setNavOpen] = useState(false);
   const [navCollapsed, setNavCollapsed] = useState(false);
   const pageMeta = useMemo(() => getPageMeta(pathname), [pathname]);
-  const title =
-    pathname === "/dashboard/dean"
-      ? `Good Afternoon, ${user.displayName}`
-      : pageMeta.title;
+  const title = pageMeta.title;
 
   const handleSignOut = async () => {
     if (auth) {
@@ -130,12 +118,15 @@ export default function DeanShell({ user, children }: DeanShellProps) {
               navCollapsed ? "flex-col gap-3" : ""
             )}
           >
-            <Link
-              href="/dashboard/dean"
+            <button
+              type="button"
+              onClick={() => setNavCollapsed((prev) => !prev)}
               className={classNames(
                 "flex items-center gap-3",
                 navCollapsed ? "justify-center" : ""
               )}
+              aria-label={navCollapsed ? "Expand navigation" : "Collapse navigation"}
+              title={navCollapsed ? "Expand navigation" : "Collapse navigation"}
             >
               <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-[#35e0ad] to-[#08a978] text-2xl font-bold text-white shadow-soft">
                 I
@@ -143,16 +134,18 @@ export default function DeanShell({ user, children }: DeanShellProps) {
               {navCollapsed ? null : (
                 <span className="text-2xl font-bold text-ink">Internly</span>
               )}
-            </Link>
-            <button
-              type="button"
-              onClick={() => setNavCollapsed((prev) => !prev)}
-              className="h-8 w-8 rounded-full border border-stroke bg-white/70 text-xs font-semibold text-slate-500"
-              aria-label={navCollapsed ? "Expand navigation" : "Collapse navigation"}
-              title={navCollapsed ? "Expand navigation" : "Collapse navigation"}
-            >
-              {navCollapsed ? ">>" : "<<"}
             </button>
+            {navCollapsed ? null : (
+              <button
+                type="button"
+                onClick={() => setNavCollapsed(true)}
+                className="h-8 w-8 rounded-full border border-stroke bg-white/70 text-xs font-semibold text-slate-500"
+                aria-label="Collapse navigation"
+                title="Collapse navigation"
+              >
+                &lt;&lt;
+              </button>
+            )}
           </div>
 
           <div className="mt-12">
@@ -194,7 +187,10 @@ export default function DeanShell({ user, children }: DeanShellProps) {
         <div className="flex min-w-0 flex-1 flex-col">
           <header className="border-b border-stroke bg-[#17181c] px-4 py-4 lg:hidden">
             <div className="flex items-center justify-between gap-3">
-              <Link href="/dashboard/dean" className="flex items-center gap-3">
+              <Link
+                href="/dashboard/dean/students"
+                className="flex items-center gap-3"
+              >
                 <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-[#35e0ad] to-[#08a978] text-xl font-bold text-white">
                   I
                 </span>

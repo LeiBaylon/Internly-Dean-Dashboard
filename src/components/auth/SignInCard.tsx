@@ -124,12 +124,6 @@ export default function SignInCard() {
                   />
                   Remember me
                 </label>
-                <button
-                  type="button"
-                  className="font-semibold text-primary transition hover:text-accent"
-                >
-                  Forgot password?
-                </button>
               </div>
 
               {error ? (
@@ -143,7 +137,6 @@ export default function SignInCard() {
                 disabled={loading}
                 className="flex h-12 w-full items-center justify-center gap-3 rounded-lg bg-primary px-5 text-base font-bold text-white shadow-soft transition hover:bg-primary/90 disabled:opacity-60"
               >
-                <span aria-hidden="true">-&gt;</span>
                 {loading ? "Signing in..." : "Sign In"}
               </button>
             </form>

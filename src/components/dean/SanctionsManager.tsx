@@ -242,7 +242,6 @@ export default function SanctionsManager({
             searchValue={recordSearch}
             onSearchChange={setRecordSearch}
             searchPlaceholder="Search student"
-            fieldsClassName="grid-cols-1 md:grid-cols-2"
           >
             <FilterField label="Student Number">
               <input
@@ -366,7 +365,6 @@ export default function SanctionsManager({
             searchValue={scheduleSearch}
             onSearchChange={setScheduleSearch}
             searchPlaceholder="Search student"
-            fieldsClassName="grid-cols-1 md:grid-cols-2"
           >
             <FilterField label="From Date">
               <input

@@ -155,7 +155,6 @@ export default function CompetenciesReviewTable({
           searchValue={search}
           onSearchChange={setSearch}
           searchPlaceholder="Search student or course"
-          fieldsClassName="grid-cols-[repeat(auto-fit,minmax(220px,1fr))]"
         >
             <FilterField label="Number">
             <input

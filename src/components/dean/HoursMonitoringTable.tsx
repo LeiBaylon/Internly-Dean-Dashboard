@@ -127,7 +127,6 @@ export default function HoursMonitoringTable({
         searchValue={search}
         onSearchChange={setSearch}
         searchPlaceholder="Search student"
-        fieldsClassName="grid-cols-[repeat(auto-fit,minmax(200px,1fr))]"
       >
         <FilterField label="Student Number">
           <input
